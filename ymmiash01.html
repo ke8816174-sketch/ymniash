@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Умняша — пространство для исследования тревоги</title>
+  <style>
+    :root {
+      --paper: #f5f3f0;
+      --paper-2: #e9e6e3;
+      --mist: #d9d7d7;
+      --ink: #29272b;
+      --muted: #777276;
+      --purple: #302044;
+      --purple-2: #51406b;
+      --lavender: #d9d4e4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    .wrap {
+      width: min(1240px, calc(100% - 10vw));
+      margin-inline: auto;
+    }
+
+    .hero {
+      min-height: 680px;
+      padding: 36px 0 84px;
+      background:
+        radial-gradient(
+          ellipse at 74% 42%,
+          rgba(213, 207, 229, .32),
+          transparent 27%
+        ),
+        var(--paper);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #b2acad, #827b7e);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      align-items: center;
+      gap: 5vw;
+      padding-top: 70px;
+    }
+
+    h1 {
+      font-size: clamp(44px, 6.2vw, 82px);
+      font-weight: 450;
+      line-height: .99;
+      letter-spacing: -.055em;
+    }
+
+    .hero-copy {
+      max-width: 480px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .prompt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 10px 9px 22px;
+      border-radius: 18px;
+      background: #e0dddc;
+    }
+
+    .prompt input {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+    }
+
+    .send {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: #9d9698;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .mascot-stage {
+      min-height: 390px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .mascot-halo {
+      position: absolute;
+      width: 300px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(195, 187, 215, .45);
+      filter: blur(35px);
+      animation: breathe 5s ease-in-out infinite;
+    }
+
+    .mascot {
+      position: relative;
+      width: 220px;
+      aspect-ratio: 1;
+      border-radius: 48% 52% 49% 51%;
+      background: linear-gradient(145deg, #a69da7, #7d747d);
+      filter: drop-shadow(0 0 26px rgba(145,128,182,.28));
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .eye {
+      position: absolute;
+      top: 38%;
+      width: 17%;
+      height: 22%;
+      border-radius: 50%;
+      background: #fbfaf8;
+    }
+
+    .eye.left {
+      left: 27%;
+    }
+
+    .eye.right {
+      right: 24%;
+      top: 34%;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(.94); }
+      50% { transform: scale(1.08); }
+    }
+
+    .panic-button {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      z-index: 20;
+      width: 64px;
+      height: 64px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--purple);
+      color: white;
+      font-size: 26px;
+      box-shadow: 0 8px 28px rgba(48,32,68,.3);
+      transition: .2s;
+    }
+
+    .panic-button:hover {
+      background: #7560a0;
+      transform: scale(1.06);
+    }
+
+    @media (max-width: 800px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mascot-stage {
+        grid-row: 1;
+        min-height: 270px;
+      }
+
+      .mascot {
+        width: 170px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Основной экран -->
+  <header class="hero" id="top">
+    <div class="wrap topbar">
+      <a class="logo" href="#top" aria-label="На главную"></a>
+      <span>Пространство, чтобы разобраться в себе</span>
+    </div>
+
+    <div class="wrap hero-grid">
+      <div>
+        <p>ТРЕВОГА · МЫСЛИ · ВНУТРЕННИЙ ХАОС</p>
+        <h1>Здесь можно<br>быть собой.</h1>
+        <p class="hero-copy">
+          Не обязательно сразу знать ответы.
+          Иногда достаточно начать разбираться
+          в том, что происходит внутри.
+        </p>
+
+        <form class="prompt" id="promptForm">
+          <span>✧</span>
+          <input
+            id="promptInput"
+            type="text"
+            placeholder="Напиши, что тебя волнует…"
+          >
+          <button class="send" type="submit">→</button>
+        </form>
+        <p id="promptHint">Без правильных формулировок.</p>
+      </div>
+
+      <div class="mascot-stage">
+        <div class="mascot-halo"></div>
+        <div class="mascot">
+          <span class="eye left"></span>
+          <span class="eye right"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Остальные секции, тревожная кнопка и JavaScript -->
+  <!-- Полная готовая версия доступна в файле по ссылке выше. -->
+
+</body>
+</html>
