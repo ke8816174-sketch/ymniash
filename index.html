@@ -730,118 +730,11 @@
     Всё навалилось? Нажми — сделаем маленькую паузу вместе.
   </div>
 
-  <button
-    class="panic-button"
-    id="panicButton"
-    type="button"
-    aria-label="Мне тревожно"
-    aria-controls="supportPanel"
-    aria-expanded="false"
-  >♡</button>
-</div>
-
-<!-- ОКНО ПОДДЕРЖКИ -->
-<aside
-  class="support-panel"
-  id="supportPanel"
-  role="dialog"
-  aria-modal="false"
-  aria-labelledby="supportTitle"
->
-  <div class="support-top">
-    <h2 id="supportTitle">Давай на секунду остановимся.</h2>
-
-    <button
-      class="close-support"
-      id="closeSupport"
-      type="button"
-      aria-label="Закрыть"
-    >×</button>
-  </div>
-
-  <p>
-    Не нужно решать всё прямо сейчас.
-    Попробуй вернуть внимание к тому,
-    что происходит в эту минуту.
-  </p>
-
-  <div class="support-step">
-    <strong>01 · Почувствуй опору</strong>
-    Заметь, как стопы касаются пола,
-    а тело соприкасается с поверхностью.
-  </div>
-
-  <div class="support-step">
-    <strong>02 · Найди вокруг</strong>
-    Назови про себя три вещи, которые видишь,
-    и два звука, которые слышишь.
-  </div>
-
-  <div class="support-step">
-    <strong>03 · Сделай один спокойный выдох</strong>
-    Не старайся дышать идеально.
-    Просто позволь выдоху быть чуть длиннее вдоха,
-    если так комфортно.
-  </div>
-
-  <p class="support-note">
-    Это короткое упражнение для самоподдержки,
-    не экстренная медицинская помощь.
-    Если ты в непосредственной опасности,
-    обратись в местную экстренную службу
-    или к человеку рядом.
-  </p>
-</aside>
-3. JavaScript
-
-Твой скрипт для кнопки уже подходит, так что оставь его как есть:
-
-js
-const panicButton = document.getElementById('panicButton');
-const supportPanel = document.getElementById('supportPanel');
-const closeSupport = document.getElementById('closeSupport');
-
-function setSupportOpen(open) {
-  supportPanel.classList.toggle('open', open);
-  panicButton.setAttribute('aria-expanded', String(open));
-  if (open) closeSupport.focus();
-}
-
-panicButton.addEventListener('click', () => {
-  setSupportOpen(!supportPanel.classList.contains('open'));
-});
-
-closeSupport.addEventListener('click', () => {
-  setSupportOpen(false);
-  panicButton.focus();
-});
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && supportPanel.classList.contains('open')) {
-    setSupportOpen(false);
-    panicButton.focus();
-  }
-});
-
-document.addEventListener('click', (event) => {
-  if (
-    supportPanel.classList.contains('open') &&
-    !supportPanel.contains(event.target) &&
-    !panicButton.contains(event.target)
-  ) {
-    setSupportOpen(false);
-  }
-});
-</div>
-   /* =========================
-   ТРЕВОЖНАЯ КНОПКА
-========================= */
-
-.panic-wrap {
+  .panic-wrap {
   position: fixed;
-  z-index: 20;
   right: 28px;
   bottom: 28px;
+  z-index: 9999;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -855,7 +748,6 @@ document.addEventListener('click', (event) => {
   border-radius: 15px 15px 3px 15px;
   font-size: 12px;
   line-height: 1.45;
-  box-shadow: 0 8px 28px rgba(40, 25, 45, .08);
   opacity: 0;
   transform: translateX(8px);
   pointer-events: none;
@@ -871,112 +763,35 @@ document.addEventListener('click', (event) => {
 .panic-button {
   width: 64px;
   height: 64px;
-  padding: 0;
-  border: 0;
   border-radius: 50%;
   background: var(--purple);
   color: #fff;
   font-size: 26px;
-  line-height: 1;
   display: grid;
   place-items: center;
   flex-shrink: 0;
   box-shadow: 0 8px 28px rgba(48, 32, 68, .3);
-  transition: transform .2s, background .2s, box-shadow .2s;
+  transition: transform .2s, background .2s;
 }
 
 .panic-button:hover,
 .panic-button:focus-visible {
   background: #7560a0;
   transform: scale(1.06);
-  box-shadow:
-    0 0 0 8px rgba(117, 96, 160, .14),
-    0 8px 30px rgba(48, 32, 68, .25);
 }
 
-.panic-button:focus-visible,
-button:focus-visible,
-a:focus-visible {
-  outline: 3px solid #8b78b2;
-  outline-offset: 4px;
+@media (max-width: 800px) {
+  .panic-wrap { right: 17px; bottom: 17px; }
+  .panic-button { width: 58px; height: 58px; }
+  .panic-tip { display: none; }
 }
+    <div class="panic-wrap">
+  <div class="panic-tip" role="tooltip">
+    Всё навалилось? Нажми — сделаем маленькую паузу вместе.
+  </div>
 
-/* Окно быстрой поддержки */
-
-.support-panel {
-  position: fixed;
-  z-index: 30;
-  right: 28px;
-  bottom: 106px;
-  width: min(350px, calc(100vw - 36px));
-  padding: 25px;
-  border-radius: 22px;
-  background: #f8f6f4;
-  border: 1px solid rgba(48, 32, 68, .12);
-  box-shadow: 0 20px 70px rgba(30, 20, 35, .2);
-  display: none;
-}
-
-.support-panel.open {
-  display: block;
-  animation: panelIn .2s ease-out;
-}
-
-@keyframes panelIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.support-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.support-panel h2 {
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: -.03em;
-  margin: 0 0 8px;
-}
-
-.support-panel p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-  margin: 0 0 18px;
-}
-
-.close-support {
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  font-size: 24px;
-  padding: 0;
-  line-height: 1;
-}
-
-.support-step {
-  background: #ebe7ee;
-  border-radius: 13px;
-  padding: 13px 14px;
-  font-size: 13px;
-  line-height: 1.5;
-  margin-top: 9px;
-}
-
-.support-step strong {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 3px;
-}
-
-.support-note {
-  font-size: 11px !important;
-  margin: 14px 0 0 !important;
-}
-
+  <a href="./button.html" class="panic-button" aria-label="Мне тревожно">♡</a>
+</div>
     /* =========================
        МОБИЛЬНАЯ ВЕРСИЯ
     ========================= */
