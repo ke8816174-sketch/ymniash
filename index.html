@@ -725,73 +725,281 @@
   <a href="./button.html" class="panic-button" id="panicButton">
     Мне тревожно
   </a>
-    <div class="panic-wrap">
-  <div class="panic-tip" role="tooltip">
-    Всё навалилось? Нажми — сделаем маленькую паузу вместе.
-  </div>
+    .panic-wrap {
+      position: fixed;
+      z-index: 20;
+      right: 28px;
+      bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-  .panic-wrap {
-  position: fixed;
-  right: 28px;
-  bottom: 28px;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+    .panic-tip {
+      width: 190px;
+      padding: 13px 15px;
+      background: #e9dedd;
+      color: #51494e;
+      border-radius: 15px 15px 3px 15px;
+      font-size: 12px;
+      line-height: 1.45;
+      box-shadow: 0 8px 28px rgba(40,25,45,.08);
+      opacity: 0;
+      transform: translateX(8px);
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+    }
 
-.panic-tip {
-  width: 190px;
-  padding: 13px 15px;
-  background: #e9dedd;
-  color: #51494e;
-  border-radius: 15px 15px 3px 15px;
-  font-size: 12px;
-  line-height: 1.45;
-  opacity: 0;
-  transform: translateX(8px);
-  pointer-events: none;
-  transition: opacity .2s, transform .2s;
-}
+    .panic-wrap:hover .panic-tip,
+    .panic-wrap:focus-within .panic-tip {
+      opacity: 1;
+      transform: translateX(0);
+    }
 
-.panic-wrap:hover .panic-tip,
-.panic-wrap:focus-within .panic-tip {
-  opacity: 1;
-  transform: translateX(0);
-}
+    .panic-button {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--purple);
+      color: #fff;
+      font-size: 26px;
+      box-shadow: 0 8px 28px rgba(48,32,68,.3);
+      transition: transform .2s, background .2s, box-shadow .2s;
+    }
 
-.panic-button {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: var(--purple);
-  color: #fff;
-  font-size: 26px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  box-shadow: 0 8px 28px rgba(48, 32, 68, .3);
-  transition: transform .2s, background .2s;
-}
+    .panic-button:hover,
+    .panic-button:focus-visible {
+      background: #7560a0;
+      transform: scale(1.06);
+      box-shadow:
+        0 0 0 8px rgba(117,96,160,.14),
+        0 8px 30px rgba(48,32,68,.25);
+    }
 
-.panic-button:hover,
-.panic-button:focus-visible {
-  background: #7560a0;
-  transform: scale(1.06);
-}
+    .panic-button:focus-visible,
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid #8b78b2;
+      outline-offset: 4px;
+    }
 
-@media (max-width: 800px) {
-  .panic-wrap { right: 17px; bottom: 17px; }
-  .panic-button { width: 58px; height: 58px; }
-  .panic-tip { display: none; }
-}
-    <div class="panic-wrap">
-  <div class="panic-tip" role="tooltip">
-    Всё навалилось? Нажми — сделаем маленькую паузу вместе.
-  </div>
+    /* Окно быстрой поддержки */
 
-  <a href="./button.html" class="panic-button" aria-label="Мне тревожно">♡</a>
-</div>
+    .support-panel {
+      position: fixed;
+      z-index: 30;
+      right: 28px;
+      bottom: 106px;
+      width: min(350px, calc(100vw - 36px));
+      padding: 25px;
+      border-radius: 22px;
+      background: #f8f6f4;
+      border: 1px solid rgba(48,32,68,.12);
+      box-shadow: 0 20px 70px rgba(30,20,35,.2);
+      display: none;
+    }
+
+    .support-panel.open {
+      display: block;
+      animation: panelIn .2s ease-out;
+    }
+
+    @keyframes panelIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .support-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .support-panel h2 {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -.03em;
+      margin: 0 0 8px;
+    }
+
+    .support-panel p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 0 0 18px;
+    }
+
+    .close-support {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 24px;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .support-step {
+      background: #ebe7ee;
+      border-radius: 13px;
+      padding: 13px 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 9px;
+    }
+
+    .support-step strong {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .support-note {
+      font-size: 11px !important;
+      margin: 14px 0 0 !important;
+    }
+
+    /* =========================
+       МОБИЛЬНАЯ ВЕРСИЯ
+    ========================= */
+
+    @media (max-width: 800px) {
+      .wrap {
+        width: min(calc(100% - 40px), 620px);
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 22px 0 60px;
+      }
+
+      .top-note {
+        max-width: 190px;
+        text-align: right;
+        font-size: 10px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding-top: 35px;
+      }
+
+      .hero-copy {
+        max-width: 520px;
+      }
+
+      .mascot-stage {
+        min-height: 270px;
+        grid-row: 1;
+      }
+
+      .mascot-halo {
+        width: 250px;
+      }
+
+      .mascot {
+        width: 170px;
+      }
+
+      .spark.one {
+        left: 20%;
+      }
+
+      .spark.two {
+        right: 17%;
+      }
+
+      .mascot-caption {
+        right: 12%;
+        bottom: 0;
+      }
+
+      .about {
+        padding: 20px 0 70px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .principles {
+        padding-top: 20px;
+        grid-template-columns: 1fr;
+      }
+
+      .diagonal-edge {
+        height: 58px;
+      }
+
+      .games {
+        padding: 0 0 75px;
+      }
+
+      .game-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .game-card {
+        min-height: 235px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .contact-block,
+      .socials {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+        padding: 22px 0 0;
+      }
+
+      .panic-wrap {
+        right: 17px;
+        bottom: 17px;
+      }
+
+      .panic-button {
+        width: 58px;
+        height: 58px;
+      }
+
+      .panic-tip {
+        display: none;
+      }
+
+      .support-panel {
+        right: 14px;
+        bottom: 88px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+  </head>
+
+<body>
+  <div class="page-shell">
     /* =========================
        МОБИЛЬНАЯ ВЕРСИЯ
     ========================= */
